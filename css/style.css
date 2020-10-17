@@ -1965,7 +1965,7 @@ textarea.form-control {
   align-items: center; }
   .form-inline .form-check {
     width: 100%; }
-  @media (min-width: 576px) {
+  @media (min-width: 576px) {  
     .form-inline label {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -8754,8 +8754,35 @@ h1, h2, h3, h4, h5,
     padding: 0 20px; }
     @media (max-width: 991.98px) {
       .ftco-partner .partner {
-        padding: 0 70px;
-        margin-bottom: 40px; } }
+        padding: 0 10px;
+        margin-bottom: 20px; }
+        .row .col-sm {
+          max-width: 30%;
+        }
+      #resume-section {
+        padding-top: 0px;
+      }
+      #technologie-stack-container {
+        padding-top: 0px !important;
+      }
+      #about-description {
+        text-align: center;
+      }
+      #cv-button {
+        padding-top: 50px;
+        padding-bottom: 50px;
+        margin: 0 auto;
+        font-size: 100%;
+        font-weight: bold;
+        text-align: center;
+        align-self: center;
+        text-decoration: none;
+        display: block;	
+      }
+      .mobile-div-center {
+        margin: 0 auto !important;
+      }
+      }
 
 .services-1 {
   margin-bottom: 40px;
@@ -9305,12 +9332,19 @@ textarea.form-control {
   width: 100%;
   height: 300px; }
 
+  .mobile-only-visible {
+    display: none;
+  } 
+
 .blog-entry {
   position: relative; }
   @media (min-width: 768px) {
     .blog-entry {
       margin-bottom: 30px; } }
   @media (max-width: 767.98px) {
+    .mobile-only-visible {
+      display: block;
+    }  
     .blog-entry {
       margin-bottom: 30px; } }
   .blog-entry .text {
