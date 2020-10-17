@@ -2098,11 +2098,14 @@ fieldset:disabled a.btn {
 .btn-hireme {
   color: #fff;
   background-color: #007bff;
-  border-color: #007bff; }
+  border: 5px solid #fff;
+  font-size: large;
+  margin-top: 15px;;
+}
   .btn-hireme:hover {
     color: #007bff;
     background-color: #fff;
-    border-color: #007bff; }
+    border-color: 5px solid #fff; }
   .btn-hireme:focus, .btn-hireme:active {
     color: #fff;
     background-color: #007bff;
