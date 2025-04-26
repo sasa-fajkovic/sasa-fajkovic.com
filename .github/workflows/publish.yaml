@@ -1,0 +1,29 @@
+name: Publish to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+# Allow this job to clone the repo and create a page deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+
+      - name: Install, build, and upload your site
+        uses: withastro/action@v4
+
+      - name: Publish to GitHub Pages
+        id: publish
+        uses: actions/deploy-pages@v4
