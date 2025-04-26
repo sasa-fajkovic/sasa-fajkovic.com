@@ -19,7 +19,7 @@ export const headerData = {
       href: '/blog',
     },
   ],
-  actions: [{ text: 'Reach our', href: 'mailto:fajkovic.sasa@proton.me', target: '_blank' }],
+  actions: [{ text: 'Contact', href: 'mailto:fajkovic.sasa@proton.me', target: '_blank' }],
 };
 
 export const footerData = {
