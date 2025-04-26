@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Publish to GitHub Pages
 
 on:
   push:
@@ -14,20 +14,16 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
 
       - name: Install, build, and upload your site
-        uses: withastro/action@v3
+        uses: withastro/action@v4
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: Publish to GitHub Pages
+        id: publish
         uses: actions/deploy-pages@v4
