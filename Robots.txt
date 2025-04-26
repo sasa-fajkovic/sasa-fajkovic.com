@@ -1,5 +1,0 @@
-User-Agent: *
-Disallow: 
-Allow: /
-
-Sitemap: https://sasa-fajkovic.com/sitemap.xml

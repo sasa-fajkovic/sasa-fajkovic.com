@@ -1,0 +1,439 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Header from '~/components/widgets/Header.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+import Button from '~/components/ui/Button.astro';
+import { Image } from 'astro:assets';
+import sasaFajkovicImageBlack from 'src/assets/images/sasaFajkovicBlack.webp';
+
+
+const metadata = {
+  title: 'Sasa Fajkovic - tech lead',
+};
+
+---
+
+<Layout metadata={metadata}>
+  <Fragment slot="header">
+    <Header
+      isSticky
+      showToggleTheme
+    />
+  </Fragment>
+
+  <!-- Hero2 Widget ******************* -->
+
+  <Hero
+    id="hero"
+    title="Sasa Fajkovic"
+    tagline="Tech lead"
+  >
+    <Fragment slot="subtitle">
+      Technical leader with a product mindset.
+    </Fragment>
+  </Hero>
+
+  <!-- Content Widget **************** -->
+
+  <Content
+    id="about"
+    columns={2}
+    image={{
+      src: sasaFajkovicImageBlack,
+      alt: 'Colorful Image',
+      loading: 'eager',
+    }}
+  >
+    <Fragment slot="content">
+      <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">About me</h2>
+      <p style="text-align: justify;">
+        Welcome to my personal page. You can find out more about me, my professional journey, education and skills, or read some of my publications.
+      </p>
+      <br />
+      <p style="text-align: justify;">
+        Feel free to reach out over email if you have any questions or would like to discuss a potential collaboration.
+      </p>
+      <br />
+      <p style="text-align: justify;">
+        If you need a copy of my CV, you can download it by clicking the button below.
+      </p>
+      <br />
+      <Button 
+      variant='primary',
+      text='PDF CV',
+      href="/SasaFajkovicCV.pdf",
+      target='_blank',
+      class:list="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-4"
+      >
+
+      </Button>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+    <!-- BlogLatestPost Widget **************** -->
+
+    <BlogLatestPosts
+    id="blog"
+    title="My blog articles"
+    information={`Learn more about my thoughts and experiences. You might find an interesting thing or two.`}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 dark:bg-transparent"></div>
+    </Fragment>
+  </BlogLatestPosts>
+
+  <Steps
+    id="experience"
+    title="Professional journey"
+    items={[
+      {
+        title:
+          'Technical Lead & Product Owner <br /> <span class="font-normal">Trade Republic, Berlin, DE</span> <br /> <span class="text-sm font-normal color-gray">2022 - Present</span>',
+        description: `
+        <div>
+        <p>Leading teams and deliverables across multiple domains:</p>
+        <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+
+          <li style="margin-top: 1em;">
+            <div>
+              <p><b>Developer Experience</b></p>
+              <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+                <li>AI tooling onboarding & management - being at the forefront of AI tooling enabling higher engineering throughput</li>
+                <li>Unified CICD pipelines - cost and speed optimised solutions for fast and compliant continuous deliverables</li>
+                <li>Self-managed, fully hosted GHA runners - 30% speed increase, 60% cost reduction</li>
+                <li>Cost-optmiziation initiatives through self-hosting</li>
+                <li>Internal developer portal - reducing product enginering time waste</li>
+              </ul>
+            </div>
+          </li>
+
+
+          <li style="margin-top: 1em;">
+            <div>
+              <p><b>Banking domain</b></p>
+              <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+                <li>Customer cash balance & reservation system</li>
+                <li>Abstract core accounts orchestration offering virtually unlimited structure and number of accounts</li>
+                <li>Interest calculation, tax processing and payout</li>
+                <li>Ledger book with endless subledger creation options</li>
+              </ul>
+          </li>
+
+          <li style="margin-top: 1em;">
+            <div>
+              <p><b>Timeline event aggregation</b></p>
+              <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+                <li>Cash & trading transaction grouping, filtering & aggregation done on-the-fly</li>
+                <li>Arhitecture redesign - from central aggregator to distributed</li>
+                <li>Financial statement release process</li>
+              </ul>
+            </div>
+          </li>
+
+          <li style="margin-top: 1em;">
+            <div>
+              <p><b>Customer lifecycle domain</b></p>
+              <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+                <li>GDPR compliant data-management - from onboarding to offboarding</li>
+                <li>Customer screening & verification - world-wide screening and PIP check</li>
+                <li>Authorization access management</li>
+                <li>Document management lifecycle</li>
+                <li>Risk assessment - multi-variant input based risk assessment system</li>
+              </ul>
+            </div>
+          </li>
+
+
+        </ul>
+        <br />
+        Tech stack:
+        <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+          <li> Kotlin, Spring Boot, Ktor, Vert.x</li>
+          <li> Kafka, RabbitMQ</li>
+          <li> Kubernetes, Docker</li>
+          <li> Prometheus, Grafana, Loki</li>
+          <li> AWS, Snowflake, GitHub Actions</li>
+          <li> PostgreSQL, Aurora</li>
+        </ul>
+        </div>
+        `,
+        icon: 'tabler:chart-bar-popular',
+      },
+      {
+        title:
+          'Engineering manager & Senior engineer<br /> <span class="font-normal">Deutsche Kreditbank AG, Berlin, DE</span> <br /> <span class="text-sm font-normal">2020 - 2022</span>',
+        description: `
+          <div>
+          <p>Managed a full-stack team (backend, frontend, QA) to ensure multiple deliveries:</p>
+          <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+            <li>New customer onboarding flows</li>
+            <li>Provisioning of 5+ mil. customers to a new debit card</li>
+            <li>Replacing legacy system with modern http REST APIs</li>
+          </ul>
+          <br />
+          Tech stack:
+          <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+            <li> Kotlin, Spring Boot</li>
+            <li> Kubernetes, Docker</li>
+            <li> Prometheus, Grafana, Kibana</li>
+            <li> GitLab CI</li>
+            <li> PostgreSQL</li>
+          </ul>
+          </div>
+        `,
+        icon: 'tabler:chart-histogram',
+      },
+      {
+        title:
+          'Founder <br /> <span class="font-normal">Digitalni val, Zagreb, HR</span> <br /> <span class="text-sm font-normal">2018 - 2020</span>',
+        description: `
+        <div>
+        <p>Small agency offering B2B and B2C digital solutions</p>
+        <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+          <li>Proprietary system for real-time event-driven betting</li>
+          <li>Small to medium eCommerce & website development</li>
+          <li>Proprietary B2C CRM tooling</li>
+          <li>Retail office management</li>
+        </ul>
+        <br />
+        Tech stack:
+        <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+          <li> Kotlin, Spring Boot</li>
+          <li> NodeJS, Puppeteer</li>
+          <li> Ubuntu server & Windows server</li>
+          <li> PostgreSQL</li>
+        </ul>
+        </div>
+        `,
+        icon: 'tabler:wave-sine',
+      },
+      {
+        title:`Lecturer <br /> <span class="font-normal">Algebra, Zagreb, HR</span> <br /> <span class="text-sm font-normal">2016 - 2018</span>`,
+        description:           `
+          <div>
+          <p>Lecture/Teacher with ECDL expertise, educating over 300 individuals</p>
+          <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+            <li>Introduction to web development - PHP, HTML, CSS, MySQL</li>
+            <li>Java programming (for backend and Android)</li>
+            <li>Microsoft Excel - ECDL Expert, Intermediate & Beginner</li>
+            <li>Microsoft Access - ECDL Expert, Intermediate & Beginner</li>
+          </ul>
+          </div>
+          `,
+        icon: 'tabler:user-code',
+      },
+      {
+        title:
+          'Team lead <br /> <span class="font-normal">UniCredit group, Zagreb, HR</span> <br /> <span class="text-sm font-normal">2016 - 2018</span>',
+        description: `
+        <div>
+        <p>Leading a full stack team (backend, frontend) developers, delivering core retail banking products.</p>
+        <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+          <li>CRM tool built from scratch ensuring smooth and compliant B2C relationship</li>
+          <li>Do Not Call registry integration ensuring compliance and automated data processing</li>
+          <li>PSD2 regulation - backend implementation ensuring compliance and on-time delivery</li>
+        </ul>
+        <br />
+        Tech stack:
+        <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+          <li> Java, Spring Boot</li>
+          <li> HTML, CSS, JS, AngularJS</li>
+          <li> Jenkins, GitLab</li>
+          <li> IBM CICS, IBM DB2</li>
+        </ul>
+        </div>
+        `,
+        icon: 'tabler:building-bank',
+      },
+      {
+        title:
+          'Project Manager & IT administratr<br /> <span class="font-normal">Carpe Diem, Karlovac, HR</span> <br /> <span class="text-sm font-normal">2014 - 2016</span>',
+        description: `
+        <div>
+        <p>Leading and coordinating project deliveries, ensuring on-time and withing budget delivery of activities. Digitalized business flows with redundancy improving efficiency while lowering costs.</p>
+        <ul style="font-size: initial; list-style: initial; padding-left: 2em;">
+          <li>International Project Management Assosiation certification/li>
+          <li>ECDL Expert certification</li>
+          <li>Asana, Google Workspace & Microsoft Sharepoint administration</li>
+        </ul>
+        </div>
+        `,
+        icon: 'tabler:chart-pie-2',
+      }
+    ]}
+    classes={{ container: 'max-w-3xl' }}
+  />
+
+  <!-- Steps Widget ****************** -->
+
+  <Steps
+    id="resume"
+    title="Education"
+    items={[
+      {
+        title: `Master of European Business Studies <br /> <span class="font-normal">Alma Mater Europaea, Maribor, SI</span> <br /> <span class="text-sm font-normal">2014 - 2017</span>`,
+        icon: 'tabler:school',
+      },
+      {
+        title: `Bachelor of Business IT <br /> <span class="font-normal">VERN' University, Zagreb, HR</span> <br /> <span class="text-sm font-normal">2010 - 2014</span>`,
+        icon: 'tabler:school',
+      },
+    ]}
+    classes={{ container: 'max-w-3xl' }}
+  />
+
+
+  <Features3
+    id="skills"
+    title="Technical skills"
+    subtitle="Just some of the tools and technologies I use on a daily basis"
+    columns={4}
+    defaultIcon="tabler:point-filled"
+    items={[
+      {
+        title: 'Java & Kotlin',
+        description: 'backend applications and services',
+      },
+      {
+        title: 'Spring & Ktor frameworks',
+        description: 'Frameworks for building web applications',
+      },
+      {
+        title: 'Kubernetes & Docker',
+        description: 'Containerization and orchestration',
+      },
+      {
+        title: 'GitHub Actions',
+        description: 'Modern, fast and scalable CI/CD',
+      },
+      {
+        title: 'Kafka & RabbitMQ',
+        description: 'Event driven architecture',
+      },
+      {
+        title: 'Prometheus & Grafana',
+        description: 'Monitoring, alerting and observability',
+      },
+      {
+        title: 'AWS',
+        description: 'Cloud services',
+      },
+      {
+        title: 'PostgreSQL & MySQL',
+        description: 'Relational databases',
+      }
+    ]}
+  />
+
+  
+<Features3
+id="publications"
+title="Publications"
+subtitle="Old, yet actively used with professionals, academia and in schools"
+columns={3}
+items={[
+  {
+    title: 'Microsoft Word 2016',
+    description: 'Comprehensive guide on writing and editing documents<br />Year: 2016<br />ISBN: 978-953-58990-0-6',
+    icon: 'tabler:file-type-docx',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-Word2016-2016.pdf',
+      variant: 'secondary',
+    }
+  },
+  {
+    title: 'Microsoft Excel 2013',
+    description: 'Power of spredsheet calculations<br />Year: 2015<br />',
+    icon: 'tabler:file-type-xls',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-Excel2013-2015.pdf',
+      variant: 'secondary',
+    }
+  },
+  {
+    title: 'C++ programming language',
+    description: 'C++ - Introduction to programming<br />Year:2015',
+    icon: 'tabler:brand-cpp',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-CPP-2015.pdf',
+      variant: 'secondary',
+    }
+  },
+  {
+    title: 'HTML5 & CSS3',
+    description: `Simple website creation.<br />Year: 2015`,
+    icon: 'tabler:file-type-html',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-HTML5CSS3-2015.pdf',
+      variant: 'secondary',
+    }
+  },
+  {
+    title: 'JavaScript',
+    description: 'Introduction to programming using JavaScript<br />Year: 2015',
+    icon: 'tabler:file-type-js',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-JS-2015.pdf',
+      variant: 'secondary',
+    }
+  },
+  {
+    title: 'Microsoft Word 2013',
+    description: 'From beginner to editor<br />Year:2014',
+    icon: 'tabler:file-type-doc',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-Word2013-2014.pdf',
+      variant: 'secondary',
+    }
+  },
+  {
+    title: 'C# & Windows Forms',
+    description: 'Introduction to programming using C# and Windows Forms<br />Year: 2014',
+    icon: 'tabler:brand-c-sharp',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-CSharp-2014.pdf',
+      variant: 'secondary',
+    }
+  },
+  {
+    title: 'C++',
+    description: 'Introduction to programming<br />Year: 2014',
+    icon: 'tabler:brand-cpp',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-CPP-2014.pdf',
+      variant: 'secondary',
+    }
+  },
+  {
+    title: 'C++',
+    description: 'Introduction to programming<br />Year: 2014',
+    icon: 'tabler:brand-cpp',
+    callToAction: {
+      text: 'View & Download PDF',
+      href: '/publications/SasaFajkovic-CPP-2012.pdf',
+      variant: 'secondary',
+    }
+  },
+]}
+classes={{ container: 'max-w-5xl' }}
+/>
+
+
+</Layout>
