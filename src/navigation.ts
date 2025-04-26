@@ -26,6 +26,7 @@ export const footerData = {
   socialLinks: [
     { ariaLabel: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/sasa-fajkovic' },
     { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://linkedin.com/in/sasa-fajkovic' },
+    { ariaLabel: 'Email', icon: 'tabler:mail', href: 'mailto:fajkovic.sasa@proton.me' },
   ],
   footNote: `
     All rights reserved.

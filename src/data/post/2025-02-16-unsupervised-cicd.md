@@ -12,7 +12,7 @@ tags:
 
 ## Current CI/CD state in the industry
 
-Often times, you will hear teams or companies speaking about how they have their CI/CD pipeline setup, just to quickly discover they don't even have the delivery phase in place to begin with. At least not on an automated, continuous basis. A "modern" or "state of the art" CI/CD pipeline is nowadays still somehow considered the one where engineers can actually continuously deploy their artifacts.
+Often, you will hear teams or companies speaking about how they have their CI/CD pipeline set up, just to quickly discover they don't even have the delivery phase in place to begin with. At least not on an automated, continuous basis. A "modern" or "state of the art" CI/CD pipeline is nowadays still somehow considered the one where engineers can actually continuously deploy their artifacts.
 
 This is not state of the art. It's a concept that has been around for decades. It's just that we're slowly adapting to a 20+ year old concept and are now declaring it as modern. It's like saying "our light-bulbs are modern and state of the art because they require only electricity and not lantern fuel"
 
