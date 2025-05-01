@@ -57,10 +57,26 @@ That's it, you're ready to enjoy the magic.
 ## Visual representation
 
 ```mermaid
-graph TD;
-    Renovate opens a PR-->Validate change;
-    Validate cahnge-->passed;
-    Validate cahnge-->failed;
-    B-->D;
-    C-->D;
+---
+config:
+  theme: neo-dark
+  look: neo
+  layout: elk
+---
+flowchart TD
+    START(["PR created"]) --> VALIDATE_CHANGE{"Validate change"}
+    VALIDATE_CHANGE --> VALIDATE_CHANGE_PASSED["Passed"] & VALIDATE_CHANGE_FAILED["Failed"]
+    VALIDATE_CHANGE_PASSED --> AUTO_MERGE["Auto-merge a PR"]
+    VALIDATE_CHANGE_FAILED --> PR_AUTHOR{"Renovate is PR author?"}
+    PR_AUTHOR --> PR_AUTHOR_FALSE["no"] & PR_AUTHOR_TRUE["yes"]
+    PR_AUTHOR_FALSE --> DO_NOTHING["Do nothing"]
+    PR_AUTHOR_TRUE --> AI_AGENT_ALREADY_INVOKED{"AI agent already invoked?"}
+    AI_AGENT_ALREADY_INVOKED --> AI_AGENT_ALREADY_INVOKED_TRUE["yes"] & AI_AGENT_ALREADY_INVOKED_FALSE["no"]
+    AI_AGENT_ALREADY_INVOKED_TRUE --> DO_NOTHING
+    AI_AGENT_ALREADY_INVOKED_FALSE --> CALL_AI_AGENT["Call AI agent"]
+    CALL_AI_AGENT --> AI_FIXED{"Issue(s) fixed?"}
+    AI_FIXED --> AI_FIXED_TRUE["yes"] & AI_FIXED_FALSE{"no"}
+    AI_FIXED_TRUE --> AUTO_MERGE
+    AI_FIXED_FALSE --> DO_NOTHING & SLACK["Send a slack message to the team"] & REVERT["Revert all previous commits from AI Agent"]
+
 ```
