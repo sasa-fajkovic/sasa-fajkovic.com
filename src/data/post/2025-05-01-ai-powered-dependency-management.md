@@ -9,12 +9,14 @@ tags:
   - AI Agent
   - Agentic mode
   - Dependabot
-  - Dependency upgrades
+  - Dependency management
 ---
 # Introduction: The Dependency Nightmare
 
 > I have never in my life met a software engineer who was enthusiastic about dependency management. Have you ever heard any engineer say something like:
-> "I am very excited to spend a week migrating all dependencies to a newer version, just to do it all over again next week"? Safe to say, you haven't.
+>> I am very excited to spend a week migrating all dependencies to a newer version, just to do it all over again next week? 
+
+**Safe to say, you haven't.**
 
 Dependency management is the silent killer of developer productivity and the hidden creator of technical debt. But what if there was a way to make this pain disappear almost entirely?
 
@@ -58,6 +60,8 @@ Let's build a system that works while you sleep. Below, we'll define a set of pr
 - Your repository must have one or more required checks to pass. *Example - tests must pass before you can merge a PR. If the tests fail, you must not be able to merge a PR.*
 
 - Ensure a PR can be merged ONLY when the pr-branch is up to date with the base branch. *GitHub example: turn on `Require branches to be up to date before merging`*
+
+- Ensure you have codeowners file in place where your team is defined as a codeowner for all the files in the repository, except the files for managing dependencies (*build.gradle, libs.version.toml, pom.xml, package.json, etc.*)
 
 ## Phase 3 - CI pipeline
 

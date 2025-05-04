@@ -8,6 +8,7 @@ tags:
   - CI/CD
   - GitHub Actions
   - integration and delivery
+  - Dependency management
 ---
 
 ## Current CI/CD state in the industry
