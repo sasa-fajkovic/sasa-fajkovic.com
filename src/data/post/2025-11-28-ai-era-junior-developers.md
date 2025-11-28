@@ -12,8 +12,6 @@ tags:
   - LLMs
 ---
 
-## The AI Era and Junior Developers: Progress Over Hype
-
 As we're seeing more and more progress in LLMs and dozens of AI agents, we often see posts about "junior developers becoming obsolete" or how nobody will hire junior engineers. Before we dive into the rest of this discussion, I want to clarify that AI (and the "intelligence" aspect of it being debatable) is gaining tremendous momentum and is becoming an essential part of our lives. Personally, I'm a big advocate of it being a great achievement for humanity and a must-have tool for **any industry** nowadays.
 
 ## Current State and "Vibe Coding"
@@ -46,11 +44,11 @@ But what if we broaden the picture a bit? Why are we narrowing down the scope of
 
 With the premise that juniors will usually come with rather poor solutions, throwing AI at them will just increase the number of poor solutions, right? It would definitely seem so.
 
-But what if a junior nowadays can make 10x more mistakes than we (pre-AI-era engineers) could? Wouldn't this be an amazing opportunity to learn 10x more in the same period it took us? And instead of thinking about juniors as cost generators whom senior engineers need to spend time teaching, what if we shift the paradigm? Instead of the senior engineer being the first go-to person for help, what if the LLM can be that magical helping hand? Wouldn't this result in juniors being able to be much more self-sustained than we could ever have dreamed of 10 years ago?
+But what if a junior nowadays can make 10x more mistakes than we (pre-AI-era engineers) could? Wouldn't this be an amazing opportunity to learn 10x more in the same period it took us? And instead of thinking about juniors as cost generators who senior engineers need to spend time teaching, what if we shift the paradigm? Instead of the senior engineer being the first go-to person for help, what if the LLM can be that magical helping hand? Wouldn't this result in juniors being able to be much more self-sustained than we could ever have dreamed of 10 years ago?
 
 Will some juniors not use the opportunity given to them in this new era? Of course! But this is nothing new. Prior to AI, we all saw a fair share of juniors who simply didn't share the passion or willingness to put in the effort to grow into great engineers one day. Nothing changes there.
 
-What does change is the sheer amount of opportunities they have today. It's a blessing to be able to make 10 times more mistakes than we ever could. It's a blessing to have a helping hand and at your disposal 24/7. Whether they use the opportunity or not is a rather personal matter for every engineer to decide for themselves: how much do they really want to pursue this line of work?
+What does change is the sheer amount of opportunities they have today. It's a blessing to be able to make 10 times more mistakes than we ever could. It's a blessing to have a helping hand at your disposal 24/7. Whether they use the opportunity or not is a rather personal matter for every engineer to decide for themselves: how much do they really want to pursue this line of work?
 
 ## Managing Expectations
 
