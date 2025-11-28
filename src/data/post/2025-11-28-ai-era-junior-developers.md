@@ -34,7 +34,7 @@ Good decisions are made based on experience. Experience comes from making both g
 
 How can we have senior engineers if we don't have juniors who need to make mistakes in order to grow and learn?
 
-## Cost-Benefit of junior engineers
+## Cost-Benefit of Junior Engineers
 
 Does AI today replace junior capabilities? Well, frankly, most of the time it does. Does that mean everyone will stop hiring them? I doubt it. The industry would be shooting itself in the foot with such a bold move. Though a fair question is: "Why does my company have to pay for juniors to learn? Why not let another company spend their money?"
 
