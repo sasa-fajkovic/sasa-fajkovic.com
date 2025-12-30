@@ -17,7 +17,7 @@ Here's a confession to start the new year: I had one simple goal for 2025 — pu
 
 Let's be honest — if there's one thing 2025 confirmed, it's that having powerful tools doesn't automatically make you productive. It makes you *capable* of being more productive. The discipline still has to come from you.
 
-But enough beating myself up. Let me tell you about what actually happened in AI this year, because safe to say, it was nothing short of transformational.
+But enough beating myself up. Let me tell you about what actually happened in AI this year, because it's safe to say, it was nothing short of transformational.
 
 ## The Year of Agents
 
@@ -51,7 +51,7 @@ Google's A2A Protocol (Agent2Agent) emerged alongside MCP, addressing how agents
 
 This brings me to one of my major goals for 2026: building **AMOS** — an Agent Management and Orchestration System.
 
-The real opportunity I see isn't just deploying agents — it's orchestrating them at organization level:
+The real opportunity I see isn't just deploying agents — it's orchestrating them at the organization level:
 
 - **Vulnerability management** — agents that automatically triage CVEs, assess exploitability, and generate remediation PRs
 - **Dependency management** — automated updates, security patches, license compliance across hundreds of repositories
