@@ -1,7 +1,7 @@
 ---
 publishDate: 2026-02-26T00:00:00Z
-title: "I'm Not Building an AI Agent. I'm Hiring a Virtual Employee."
-excerpt: Everyone's talking about AI agents. I keep coming back to a simpler question — in a remote-first world, what actually separates a human colleague from an AI one?
+title: "I'm not building an AI Agent. I'm hiring a virtual employee."
+excerpt: Everyone's talking about AI agents. I keep coming back to a different question — in a remote-first world, what actually separates a human colleague from an AI one?
 image: ~/assets/images/posts/2026-02-26-virtual-employee.jpg
 category: AI
 tags:
@@ -12,7 +12,7 @@ tags:
   - Developer Experience
 ---
 
-When I tried to explain to a few peers what I'm building, I couldn't. The best I could manage was: "I'm creating virtual employees. The cheapest ones possible."
+When I tried to explain to a few peers what I'm building, I couldn't. The best I could manage was: "I'm creating virtual employees. The most cost-effective ones possible."
 
 That got confused looks. So let me try again — this time in writing.
 
@@ -23,6 +23,11 @@ Everyone in tech is talking about AI agents. Gartner predicts 40% of enterprise 
 But while the industry debates frameworks and ROI, I keep coming back to a simpler question:
 
 If your entire team works remotely — communicating through Slack, reviewing PRs on GitHub, resolving tickets in Jira — what exactly separates a human colleague from an AI one?
+
+Is it a direct message? It can do that. Group message? Sure, it can be there as well.
+Creating and reviewing Jira tickets? Same, both can do it.
+Creatin a PR, reviewin ga PR, deploying? It can do that as well.
+Answer questions your team gets on their Slack channel? Again... both can do it.
 
 ## Think about your last Monday
 
@@ -41,10 +46,11 @@ I'm building what I call virtual employees. Not chatbots. Not assistants. Not co
 A virtual employee has:
 
 - Its own Slack account (that's how the team interacts with it)
-- Its own GitHub account (it reviews and approves PRs)
+- Its own GitHub account (it creates, reviews and approves PRs)
 - Its own Gmail account
 - Its own Okta identity
-- Its own "laptop" — a provisioned compute environment
+- It's own Jira and Confluence account
+- Its own **laptop** (present in physical form)
 
 It gets onboarded like any new hire. It gets access to the systems it needs. It operates within the same communication channels as the rest of the team.
 
@@ -58,7 +64,7 @@ Here's where it gets interesting for engineers.
 
 Not everything an AI employee does needs to be non-deterministic. Most people hear "AI" and think of an LLM generating responses to every input. That's expensive, slow, and unnecessary for a large portion of engineering work.
 
-What I built instead is a spectrum.
+What I built instead is a spectrum... a hybrid of both worlds (deterministic and non-deterministic)
 
 Every incoming request gets deterministic analysis first. The system knows which Slack channel the message came from — and channels are categorized: support, monitoring, internal. It knows whether the message starts a new thread or resumes an existing one. Based on these signals, the system determines a precise course of action: fully automated, or AI-assisted with custom prompts tailored to the context.
 
@@ -72,13 +78,15 @@ Here's what makes this feel less like automation and more like onboarding.
 
 When the virtual employee reviews a PR and a human colleague disagrees — leaves a comment, requests changes, or overrides the decision — that feedback is captured. The system uses it to adjust. Next time a similar pattern appears, it handles it differently.
 
-This is not fine-tuning a model. It's the same loop every junior engineer goes through: do the work, get feedback, adapt. The difference is that a virtual employee doesn't forget the feedback after a long weekend. And it applies it consistently across every future interaction.
+When the virtual employee responds to others in or team-support slack channels, we give it feedback. When it reacts on alerts, we give it feedback. And it can self-improve base don that feedback.
+
+This is not fine-tuning a model. It's the same loop every engineer goes through: do the work, get feedback, adapt. The difference is that a virtual employee doesn't forget the feedback after a long weekend. And it applies it (kinda) consistently across every future interaction.
 
 Over time, the virtual employee gets better at its job — not because someone retrained it, but because its colleagues shaped it. Just like they would with any other team member.
 
 ## The cost argument
 
-A full-time employee in Europe costs €3,500–6,000 per month in salary alone, before benefits, equipment, and office overhead ([Hoeijmakers.net, 2025](https://hoeijmakers.net/ai-agent-cost-compared-to-a-human/)). An AI agent performing comparable task-based functions costs €100–300 per month in compute, hosting, and API costs ([Hoeijmakers.net, 2025](https://hoeijmakers.net/ai-agent-cost-compared-to-a-human/)).
+A full-time employee in Europe costs €3,500–6,000 per month in salary alone, before benefits, equipment, and office overhead ([Hoeijmakers.net, 2025](https://hoeijmakers.net/ai-agent-cost-compared-to-a-human/)). An AI agent performing comparable task-based functions costs €100–300 per month in compute, hosting, and API costs ([Hoeijmakers.net, 2025](https://hoeijmakers.net/ai-agent-cost-compared-to-a-human/)). 
 
 But cost isn't even the main point. The real shift is in scalability. You can't clone your best on-call engineer. You can clone a virtual employee that handles 80% of alert triage at 3 AM without anyone losing sleep.
 
@@ -86,7 +94,7 @@ But cost isn't even the main point. The real shift is in scalability. You can't 
 
 Gartner also predicts that over 40% of agentic AI projects will be cancelled by the end of 2027 — due to escalating costs, unclear business value, and inadequate risk controls ([Gartner, June 2025](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027)). They estimate only about 130 of the thousands of "agentic AI" vendors actually offer real capabilities. The rest is what Gartner calls "agent washing" — rebranding chatbots and RPA tools.
 
-I think the reason is simpler than vendor hype. Most AI agent projects fail because they treat AI as a tool, not as a team member. They bolt a chatbot onto existing workflows and expect transformation.
+I think the reason is simpler than vendor hype. Most AI agent projects fail because they treat AI as a tool, not as a team member. They bolt a chatbot onto existing workflows and expect transformation. Imagine hiring a consultant and expecting a full organization transformation just because you're paying for them. The only that will change is the number in your "costs" column.
 
 A virtual employee is different. It's designed from the ground up to operate like a person: with identity, access, context, and accountability. It doesn't wait to be invoked — it participates.
 
@@ -108,7 +116,7 @@ A virtual employee doesn't have intuition born from years of domain experience. 
 
 What it does is handle the 80% of work that is structured, repetitive, and well-defined — so that humans can focus on the 20% that actually requires being human.
 
-That's not replacing people. That's respecting what people are actually good at.
+And yes, sometimes AI will make mistakes, you will need to steer it and spend time improving it. You will have to teach it how to behave in your company, providing it knowledge, expectations and feedback. Doesn't that sound familiar, almost as if... ah yes... it's what we do today with human employees.
 
 ---
 
