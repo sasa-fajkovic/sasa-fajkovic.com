@@ -2,6 +2,7 @@
 publishDate: 2026-02-26T00:00:00Z
 title: "I'm Not Building an AI Agent. I'm Hiring a Virtual Employee."
 excerpt: Everyone's talking about AI agents. I keep coming back to a simpler question — in a remote-first world, what actually separates a human colleague from an AI one?
+image: ~/assets/images/posts/2026-02-26-virtual-employee.jpg
 category: AI
 tags:
   - AI
