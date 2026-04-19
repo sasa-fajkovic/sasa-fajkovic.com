@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTR Cup Order Generator</title>
+  <meta name="description" content="Standalone CTR Cup order generator.">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="theme-color" content="#1a0a00">
+  <link rel="icon" href="https://www.clipartmax.com/png/middle/m2i8m2i8A0K9G6Z5_crash-team-racing-crash-team-racing-logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://www.clipartmax.com/png/middle/m2i8m2i8A0K9G6Z5_crash-team-racing-crash-team-racing-logo.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial Black', Arial, sans-serif;
+      background: linear-gradient(135deg, #1a0a00 0%, #2d1200 40%, #0d0d0d 100%);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-section img {
+      max-width: 280px;
+      width: 100%;
+      filter: drop-shadow(0 0 18px #FF6B00aa);
+    }
+
+    .card {
+      background: linear-gradient(160deg, #2a1200, #1a0a00);
+      border: 3px solid #FF6B00;
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 30px #FF6B0066, inset 0 0 20px #00000088;
+    }
+
+    .card h2 {
+      color: #FFB800;
+      text-align: center;
+      font-size: 18px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      text-shadow: 0 0 10px #FFB80088;
+    }
+
+    .tiles {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: nowrap;
+    }
+
+    .tile {
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .tile-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      box-shadow: 0 0 16px;
+      margin-bottom: 6px;
+      border: 2px solid;
+    }
+
+    .tile-name {
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .shuffle-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #FF6B00, #FF2D00);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 0 18px #FF6B0099;
+      transition: all 0.2s ease;
+    }
+
+    .shuffle-btn:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+
+    .shuffle-btn:disabled {
+      background: #555;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .history-card {
+      background: linear-gradient(160deg, #1a0a00, #0d0600);
+      border: 2px solid #FF6B0066;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 0 16px #FF6B0033;
+    }
+
+    .history-card h3 {
+      color: #FFB800;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      text-shadow: 0 0 8px #FFB80066;
+    }
+
+    .date-group {
+      margin-bottom: 16px;
+    }
+
+    .date-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #FF6B0044;
+    }
+
+    .date-title {
+      color: #FF6B00;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .date-stats {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .date-score {
+      font-size: 11px;
+      font-weight: 900;
+      color: #aaa;
+      text-transform: uppercase;
+    }
+
+    .date-winner {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      min-width: 40px;
+      text-align: center;
+      border: 1px solid;
+    }
+
+    .date-winner.d {
+      background: #FFB80033;
+      border-color: #FFB800;
+      color: #FFB800;
+    }
+
+    .date-winner.s {
+      background: #00C2FF33;
+      border-color: #00C2FF;
+      color: #00C2FF;
+    }
+
+    .date-winner.none {
+      background: #ffffff11;
+      border-color: #ffffff22;
+      color: #aaa;
+    }
+
+    .entry {
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      border-radius: 8px;
+      background: #ffffff08;
+      border: 1px solid #ffffff11;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .entry.locked {
+      background: #ffffff05;
+      border-color: #ffffff08;
+      opacity: 0.7;
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .entry-number {
+      color: #FF6B00;
+      font-weight: 900;
+      font-size: 13px;
+      min-width: 28px;
+    }
+
+    .entry-tiles {
+      display: flex;
+      gap: 6px;
+    }
+
+    .entry-tile {
+      text-align: center;
+    }
+
+    .entry-tile-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 3px;
+      border: 1px solid;
+    }
+
+    .entry-tile-name {
+      color: #aaa;
+      font-size: 8px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .delete-btn {
+      padding: 6px 10px;
+      background: #FF2D5533;
+      border: 1px solid #FF2D55;
+      border-radius: 6px;
+      color: #FF2D55;
+      font-weight: 900;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .delete-btn:hover {
+      background: #FF2D5555;
+    }
+
+    .winner-buttons {
+      display: flex;
+      gap: 8px;
+      margin-left: 36px;
+    }
+
+    .winner-buttons.locked {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .winner-btn {
+      flex: 1;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid #ffffff22;
+      background: #ffffff11;
+      color: #aaa;
+    }
+
+    .winner-btn.selected-d {
+      background: #FFB800;
+      border-color: #FFB800;
+      color: #000;
+    }
+
+    .winner-btn.selected-s {
+      background: #00C2FF;
+      border-color: #00C2FF;
+      color: #000;
+    }
+
+    .winner-btn:disabled {
+      cursor: not-allowed;
+    }
+
+    .timer {
+      margin-left: 36px;
+      font-size: 10px;
+      color: #FFB800;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .locked-text {
+      margin-left: 36px;
+      font-size: 10px;
+      color: #FF2D55;
+      font-weight: 900;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-section">
+      <img src="https://www.clipartmax.com/png/middle/m2i8m2i8A0K9G6Z5_crash-team-racing-crash-team-racing-logo.png" alt="CTR Logo" onerror="this.style.display='none'">
+    </div>
+
+    <div class="card">
+      <h2>🏁 CTR Cup Order 🏁</h2>
+      <div class="tiles" id="tiles"></div>
+      <button class="shuffle-btn" id="shuffleBtn">🏎️ Shuffle Cup Order!</button>
+    </div>
+
+    <div class="history-card">
+      <h3>📋 Race History</h3>
+      <div id="history"></div>
+    </div>
+  </div>
+
+  <script>
+    const COLORS = {
+      1: '#FF6B00',
+      2: '#FFB800',
+      3: '#00C2FF',
+      4: '#FF2D55'
+    };
+
+    const CUP_NAMES = {
+      1: 'Wumpa',
+      2: 'Nitro',
+      3: 'Crystal',
+      4: 'Crash'
+    };
+
+    const GRACE_PERIOD = 5 * 60 * 1000;
+
+    let permutation = [3, 1, 4, 2];
+    let history = JSON.parse(localStorage.getItem('ctrHistory')) || [{ seq: [3, 1, 4, 2], date: new Date().toISOString() }];
+    let winners = JSON.parse(localStorage.getItem('ctrWinners')) || {};
+    let spinning = false;
+
+    function saveData() {
+      localStorage.setItem('ctrHistory', JSON.stringify(history));
+      localStorage.setItem('ctrWinners', JSON.stringify(winners));
+    }
+
+    function renderTiles() {
+      const tilesDiv = document.getElementById('tiles');
+      tilesDiv.innerHTML = permutation.map(num => `
+        <div class="tile">
+          <div class="tile-number" style="background: radial-gradient(circle at 35% 35%, ${COLORS[num]}cc, ${COLORS[num]}55); border-color: ${COLORS[num]}; box-shadow: 0 0 16px ${COLORS[num]}88;">
+            ${num}
+          </div>
+          <div class="tile-name">${CUP_NAMES[num]}</div>
+        </div>
+      `).join('');
+    }
+
+    function shuffle() {
+      if (spinning) return;
+      spinning = true;
+      document.getElementById('shuffleBtn').disabled = true;
+      document.getElementById('shuffleBtn').textContent = '🌀 Racing...';
+
+      setTimeout(() => {
+        const arr = [1, 2, 3, 4];
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        permutation = arr;
+        history.unshift({ seq: arr, date: new Date().toISOString() });
+
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+        history = history.filter(item => new Date(item.date) > sixMonthsAgo);
+
+        saveData();
+        renderTiles();
+        renderHistory();
+
+        spinning = false;
+        document.getElementById('shuffleBtn').disabled = false;
+        document.getElementById('shuffleBtn').textContent = '🏎️ Shuffle Cup Order!';
+      }, 400);
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const y = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+
+      if (d.getTime() === t.getTime()) return 'Today';
+      if (d.getTime() === y.getTime()) return 'Yesterday';
+      return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+
+    function isLocked(dateStr) {
+      return (Date.now() - new Date(dateStr).getTime()) > GRACE_PERIOD;
+    }
+
+    function getTimeRemaining(dateStr) {
+      const remaining = GRACE_PERIOD - (Date.now() - new Date(dateStr).getTime());
+      if (remaining <= 0) return null;
+      const m = Math.floor(remaining / 60000);
+      const s = Math.floor((remaining % 60000) / 1000);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function toggleWinner(idx, winner) {
+      if (isLocked(history[idx].date)) return;
+      const key = `hist_${idx}`;
+      winners[key] = winners[key] === winner ? null : winner;
+      saveData();
+      renderHistory();
+    }
+
+    function deleteEntry(idx) {
+      if (isLocked(history[idx].date)) return;
+      history.splice(idx, 1);
+      delete winners[`hist_${idx}`];
+      saveData();
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const grouped = {};
+      history.forEach((item, idx) => {
+        const date = formatDate(item.date);
+        if (!grouped[date]) grouped[date] = [];
+        grouped[date].push({ ...item, idx });
+      });
+
+      const orderDates = (a, b) => {
+        if (a === 'Today') return -1;
+        if (b === 'Today') return 1;
+        if (a === 'Yesterday') return -1;
+        if (b === 'Yesterday') return 1;
+        return 0;
+      };
+
+      const html = Object.keys(grouped).sort(orderDates).map(dateKey => {
+        const dWins = grouped[dateKey].filter(item => winners[`hist_${item.idx}`] === 'D').length;
+        const sWins = grouped[dateKey].filter(item => winners[`hist_${item.idx}`] === 'S').length;
+        const total = dWins + sWins;
+        const winner = dWins > sWins ? 'D' : sWins > dWins ? 'S' : null;
+
+        const entriesHtml = grouped[dateKey].map(item => {
+          const locked = isLocked(item.date);
+          const timer = getTimeRemaining(item.date);
+          const selected = winners[`hist_${item.idx}`];
+
+          return `
+            <div class="entry ${locked ? 'locked' : ''}">
+              <div class="entry-header">
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <span class="entry-number">#${item.idx + 1}</span>
+                  <div class="entry-tiles">
+                    ${item.seq.map(num => `
+                      <div class="entry-tile">
+                        <div class="entry-tile-number" style="background: ${COLORS[num]}33; border-color: ${COLORS[num]}; color: ${COLORS[num]};">${num}</div>
+                        <div class="entry-tile-name">${CUP_NAMES[num]}</div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+                <button class="delete-btn" onclick="deleteEntry(${item.idx})" ${locked ? 'disabled' : ''}>🗑️</button>
+              </div>
+              <div class="winner-buttons ${locked ? 'locked' : ''}">
+                <button class="winner-btn ${selected === 'D' ? 'selected-d' : ''}" onclick="toggleWinner(${item.idx}, 'D')" ${locked ? 'disabled' : ''}>D</button>
+                <button class="winner-btn ${selected === 'S' ? 'selected-s' : ''}" onclick="toggleWinner(${item.idx}, 'S')" ${locked ? 'disabled' : ''}>S</button>
+              </div>
+              ${timer ? `<div class="timer">Locked in: ${timer}</div>` : ''}
+              ${locked ? '<div class="locked-text">🔒 LOCKED</div>' : ''}
+            </div>
+          `;
+        }).join('');
+
+        const winnerClass = winner === 'D' ? 'd' : winner === 'S' ? 's' : 'none';
+
+        return `
+          <div class="date-group">
+            <div class="date-header">
+              <div class="date-title">${dateKey}</div>
+              <div class="date-stats">
+                <div class="date-score">D: ${dWins} | S: ${sWins}</div>
+                ${total > 0 ? `<div class="date-winner ${winnerClass}">${winner || '-'}</div>` : ''}
+              </div>
+            </div>
+            ${entriesHtml}
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('history').innerHTML = html;
+    }
+
+    document.getElementById('shuffleBtn').addEventListener('click', shuffle);
+    renderTiles();
+    renderHistory();
+  </script>
+</body>
+</html>
