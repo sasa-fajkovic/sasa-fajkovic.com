@@ -4,10 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CTR Cup Order Generator</title>
-  <meta name="description" content="Standalone CTR Cup order generator.">
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="theme-color" content="#1a0a00">
   <link rel="icon" href="https://www.clipartmax.com/png/middle/m2i8m2i8A0K9G6Z5_crash-team-racing-crash-team-racing-logo.png" type="image/png">
   <link rel="apple-touch-icon" href="https://www.clipartmax.com/png/middle/m2i8m2i8A0K9G6Z5_crash-team-racing-crash-team-racing-logo.png">
   <style>
@@ -16,7 +12,7 @@
       padding: 0;
       box-sizing: border-box;
     }
-
+    
     body {
       font-family: 'Arial Black', Arial, sans-serif;
       background: linear-gradient(135deg, #1a0a00 0%, #2d1200 40%, #0d0d0d 100%);
@@ -212,12 +208,6 @@
       margin-bottom: 12px;
     }
 
-    .entry.locked {
-      background: #ffffff05;
-      border-color: #ffffff08;
-      opacity: 0.7;
-    }
-
     .entry-header {
       display: flex;
       justify-content: space-between;
@@ -284,11 +274,6 @@
       margin-left: 36px;
     }
 
-    .winner-buttons.locked {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
     .winner-btn {
       flex: 1;
       padding: 8px;
@@ -317,22 +302,6 @@
 
     .winner-btn:disabled {
       cursor: not-allowed;
-    }
-
-    .timer {
-      margin-left: 36px;
-      font-size: 10px;
-      color: #FFB800;
-      font-weight: 900;
-      text-align: right;
-    }
-
-    .locked-text {
-      margin-left: 36px;
-      font-size: 10px;
-      color: #FF2D55;
-      font-weight: 900;
-      text-align: right;
     }
   </style>
 </head>
@@ -368,8 +337,6 @@
       3: 'Crystal',
       4: 'Crash'
     };
-
-    const GRACE_PERIOD = 5 * 60 * 1000;
 
     let permutation = [3, 1, 4, 2];
     let history = JSON.parse(localStorage.getItem('ctrHistory')) || [{ seq: [3, 1, 4, 2], date: new Date().toISOString() }];
@@ -407,15 +374,15 @@
         }
         permutation = arr;
         history.unshift({ seq: arr, date: new Date().toISOString() });
-
+        
         const sixMonthsAgo = new Date();
         sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
         history = history.filter(item => new Date(item.date) > sixMonthsAgo);
-
+        
         saveData();
         renderTiles();
         renderHistory();
-
+        
         spinning = false;
         document.getElementById('shuffleBtn').disabled = false;
         document.getElementById('shuffleBtn').textContent = '🏎️ Shuffle Cup Order!';
@@ -427,30 +394,17 @@
       const today = new Date();
       const yesterday = new Date(today);
       yesterday.setDate(yesterday.getDate() - 1);
-
+      
       const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
       const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       const y = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
-
+      
       if (d.getTime() === t.getTime()) return 'Today';
       if (d.getTime() === y.getTime()) return 'Yesterday';
       return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
     }
 
-    function isLocked(dateStr) {
-      return (Date.now() - new Date(dateStr).getTime()) > GRACE_PERIOD;
-    }
-
-    function getTimeRemaining(dateStr) {
-      const remaining = GRACE_PERIOD - (Date.now() - new Date(dateStr).getTime());
-      if (remaining <= 0) return null;
-      const m = Math.floor(remaining / 60000);
-      const s = Math.floor((remaining % 60000) / 1000);
-      return `${m}:${s.toString().padStart(2, '0')}`;
-    }
-
     function toggleWinner(idx, winner) {
-      if (isLocked(history[idx].date)) return;
       const key = `hist_${idx}`;
       winners[key] = winners[key] === winner ? null : winner;
       saveData();
@@ -458,7 +412,6 @@
     }
 
     function deleteEntry(idx) {
-      if (isLocked(history[idx].date)) return;
       history.splice(idx, 1);
       delete winners[`hist_${idx}`];
       saveData();
@@ -488,12 +441,10 @@
         const winner = dWins > sWins ? 'D' : sWins > dWins ? 'S' : null;
 
         const entriesHtml = grouped[dateKey].map(item => {
-          const locked = isLocked(item.date);
-          const timer = getTimeRemaining(item.date);
           const selected = winners[`hist_${item.idx}`];
 
           return `
-            <div class="entry ${locked ? 'locked' : ''}">
+            <div class="entry">
               <div class="entry-header">
                 <div style="display: flex; gap: 8px; align-items: center;">
                   <span class="entry-number">#${item.idx + 1}</span>
@@ -506,14 +457,12 @@
                     `).join('')}
                   </div>
                 </div>
-                <button class="delete-btn" onclick="deleteEntry(${item.idx})" ${locked ? 'disabled' : ''}>🗑️</button>
+                <button class="delete-btn" onclick="deleteEntry(${item.idx})">🗑️</button>
               </div>
-              <div class="winner-buttons ${locked ? 'locked' : ''}">
-                <button class="winner-btn ${selected === 'D' ? 'selected-d' : ''}" onclick="toggleWinner(${item.idx}, 'D')" ${locked ? 'disabled' : ''}>D</button>
-                <button class="winner-btn ${selected === 'S' ? 'selected-s' : ''}" onclick="toggleWinner(${item.idx}, 'S')" ${locked ? 'disabled' : ''}>S</button>
+              <div class="winner-buttons">
+                <button class="winner-btn ${selected === 'D' ? 'selected-d' : ''}" onclick="toggleWinner(${item.idx}, 'D')">D</button>
+                <button class="winner-btn ${selected === 'S' ? 'selected-s' : ''}" onclick="toggleWinner(${item.idx}, 'S')">S</button>
               </div>
-              ${timer ? `<div class="timer">Locked in: ${timer}</div>` : ''}
-              ${locked ? '<div class="locked-text">🔒 LOCKED</div>' : ''}
             </div>
           `;
         }).join('');
