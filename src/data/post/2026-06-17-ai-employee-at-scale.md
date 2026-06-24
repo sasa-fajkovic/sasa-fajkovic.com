@@ -173,11 +173,3 @@ I want to tell a different story — one with actual numbers, actual teams, and 
 I'm not the loudest voice at that conference. The CTO of Amazon will be there. Speakers from NVIDIA and Atlassian and GitHub. I'm not competing with them on reach or credibility. What I have is something those voices usually don't: a system I built myself, running across twenty real teams, with results I can stand behind without a marketing team involved.
 
 If you're at WeAreDevelopers and want to talk — find me after the session. And if you're not there but this resonates, the conversation doesn't need to wait until July.
-
----
-
-The framing that works is simple: you have roles that need filling and work that needs doing. Some of that work can be handled by a virtual employee who onboards the same way any other new hire does, operates in your existing tools, and improves every day through feedback from the people it works with.
-
-You don't need a strategy to hire someone. You need a role, a manager, and an onboarding checklist.
-
-The checklist is the same.
