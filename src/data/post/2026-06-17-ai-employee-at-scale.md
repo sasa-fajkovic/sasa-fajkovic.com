@@ -2,7 +2,7 @@
 publishDate: 2026-06-17T00:00:00Z
 title: "No AI project. Just a new hire."
 excerpt: I'm speaking at WeAreDevelopers World Congress in Berlin on July 8th — 15,000 attendees, 500+ speakers. The topic is hiring virtual employees. Not AI strategy, not agentic frameworks. Hiring. Here's what twenty teams taught me.
-image: ~/assets/images/posts/2026-06-17-ai-employee-at-scale.jpg
+image: ~/assets/images/posts/2026-06-17-ai-employee-at-scale.png
 category: AI
 tags:
   - AI
