@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRE & Windfall Planner</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1420; --panel:#171e2e; --panel2:#1e2740; --ink:#e8edf7; --muted:#93a0bd;
+    --acc:#5f7cff; --acc2:#22c9a3; --warn:#f5a524; --bad:#f2545b; --line:#2a3552;
+    --grid:#212b45;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(160deg,#0c111c,#111a2b);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 20px 80px;}
+  header h1{font-size:26px;margin:0 0 4px;font-weight:700;letter-spacing:-.4px;}
+  header p{color:var(--muted);margin:0;font-size:14px;}
+  .badge{display:inline-block;background:var(--panel2);color:var(--muted);border:1px solid var(--line);
+    padding:3px 9px;border-radius:20px;font-size:11px;margin-left:6px;}
+  .controls{display:flex;flex-wrap:wrap;gap:16px;background:var(--panel);border:1px solid var(--line);
+    border-radius:16px;padding:18px 20px;margin:22px 0;}
+  .ctl{display:flex;flex-direction:column;gap:6px;}
+  .ctl label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);}
+  .seg{display:flex;background:var(--panel2);border-radius:10px;padding:3px;border:1px solid var(--line);}
+  .seg button{background:none;border:none;color:var(--muted);padding:7px 13px;border-radius:8px;
+    cursor:pointer;font-size:13px;font-weight:600;transition:.15s;}
+  .seg button.on{background:var(--acc);color:#fff;}
+  select,input[type=range],input[type=number]{background:var(--panel2);color:var(--ink);border:1px solid var(--line);
+    border-radius:9px;padding:8px 10px;font-size:13px;font-weight:600;}
+  input[type=number]{width:130px;-moz-appearance:textfield;outline:none;}
+  input[type=number]:focus,select:focus{border-color:var(--acc);}
+  input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0;}
+  input[type=range]{padding:0;accent-color:var(--acc);}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:6px 0 24px;}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .kpi .v{font-size:27px;font-weight:750;letter-spacing:-.5px;}
+  .kpi .l{font-size:12px;color:var(--muted);margin-top:3px;}
+  .kpi .s{font-size:11px;color:var(--acc2);margin-top:6px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px;}
+  .card h3{margin:0 0 2px;font-size:15px;}
+  .card .sub{color:var(--muted);font-size:12px;margin-bottom:14px;}
+  .full{grid-column:1/-1;}
+  canvas{max-height:320px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--grid);}
+  th:first-child,td:first-child{text-align:left;}
+  thead th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;}
+  td.hi{color:var(--acc2);font-weight:700;}
+  .note{color:var(--muted);font-size:12.5px;line-height:1.65;background:var(--panel);
+    border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-top:18px;}
+  .note b{color:var(--ink);}
+  .props{margin:22px 0;}
+  .props .phead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .props h3{margin:0;font-size:15px;}
+  .props .sub{color:var(--muted);font-size:12px;margin-top:2px;}
+  .addbtn{background:var(--acc);border:none;color:#fff;padding:9px 15px;border-radius:9px;cursor:pointer;
+    font-size:13px;font-weight:600;}
+  .addbtn:hover{filter:brightness(1.08);}
+  .prow{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;}
+  .prow .f{display:flex;flex-direction:column;gap:5px;}
+  .prow .f label{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);}
+  .prow input{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:8px;
+    padding:7px 9px;font-size:13px;font-weight:600;}
+  .prow input.name{width:150px;}
+  .prow input.num{width:82px;-moz-appearance:textfield;}
+  .prow input.num::-webkit-inner-spin-button,.prow input.num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+  .prow input:focus{border-color:var(--acc);outline:none;}
+  .delbtn{background:none;border:1px solid var(--line);color:var(--bad);width:34px;height:35px;
+    border-radius:8px;cursor:pointer;font-size:17px;margin-left:auto;line-height:1;}
+  .delbtn:hover{background:rgba(242,84,91,.12);}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FIRE &amp; Windfall Planner <span class="badge">7% nominal · 2.5% inflation · taxes modelled</span></h1>
+    <p>When you can stop needing to work — across savings rates, one-off windfall outcomes, and lifestyle targets. Portfolio drawn down to ~€0 at age 80.</p>
+  </header>
+
+  <div class="controls">
+    <div class="ctl"><label>Target lifestyle</label>
+      <div class="seg" id="segLife">
+        <button data-v="5000" class="on">€5,000/mo</button>
+        <button data-v="6000">€6,000/mo</button>
+      </div>
+    </div>
+    <div class="ctl"><label>Current portfolio (Jan 2027)</label>
+      <input type="number" id="inPort" value="200000" step="10000" min="0" style="width:120px">
+    </div>
+    <div class="ctl"><label>Monthly savings into S&amp;P500</label>
+      <select id="selSave">
+        <option value="1000">€1,000</option><option value="2000">€2,000</option>
+        <option value="3000" selected>€3,000</option><option value="4000">€4,000</option>
+        <option value="5000">€5,000</option>
+      </select>
+    </div>
+    <div class="ctl"><label>Windfall cash (one-off, into S&amp;P500)</label>
+      <select id="selVsop"></select>
+    </div>
+    <div class="ctl"><label>Windfall year</label>
+      <input type="number" id="inWfYear" value="2031" min="2027" max="2060" step="1" style="width:90px">
+    </div>
+    <div class="ctl"><label>Stock return: <span id="rLbl">7.0%</span></label>
+      <input type="range" id="rRet" min="5" max="10" step="0.5" value="7">
+    </div>
+    <div class="ctl"><label>Current age</label>
+      <input type="number" id="inAge" value="37" min="18" max="70" step="1" style="width:80px">
+    </div>
+    <div class="ctl"><label>Plan until age</label>
+      <input type="number" id="inDeath" value="80" min="50" max="105" step="1" style="width:80px">
+    </div>
+  </div>
+
+  <div class="props">
+    <div class="phead">
+      <div><h3>Properties — rental income &amp; value</h3>
+        <div class="sub">Rent is reinvested while working and offsets spending in retirement. Property value is never consumed (estate/cushion on top).</div></div>
+      <button class="addbtn" id="addProp">+ Add property</button>
+    </div>
+    <div id="propList"></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v" id="kAge">—</div><div class="l">Work-optional age</div><div class="s" id="kYear"></div></div>
+    <div class="kpi"><div class="v" id="kPot">—</div><div class="l">Portfolio needed at that date</div><div class="s" id="kPotNote"></div></div>
+    <div class="kpi"><div class="v" id="kPeak">—</div><div class="l">Peak net worth</div><div class="s" id="kPeakNote"></div></div>
+    <div class="kpi"><div class="v" id="kRetYears">—</div><div class="l">Years funded (to 80)</div><div class="s">rent offsets part of spend</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card full">
+      <h3>Net worth over your life</h3>
+      <div class="sub">Selected scenario — S&amp;P500 portfolio + property value. Grows while working, drawn down in retirement to ~€0 at 80.</div>
+      <canvas id="chNW"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>Work-optional age by savings rate</h3>
+      <div class="sub" id="fireSub">At €5,000/mo lifestyle — lower is better.</div>
+      <canvas id="chFire"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>Lifestyle cost: €5k vs €6k</h3>
+      <div class="sub">Selected savings + windfall. The extra €1k/mo pushes FIRE out.</div>
+      <canvas id="chLife"></canvas>
+    </div>
+
+    <div class="card full">
+      <h3>How your living costs grow over the years</h3>
+      <div class="sub">Annual spend inflating at 2.5% vs. net rental income. The gap is what the portfolio must cover.</div>
+      <canvas id="chCosts"></canvas>
+    </div>
+
+    <div class="card full">
+      <h3>Full scenario matrix — work-optional age</h3>
+      <div class="sub" id="matSub">At €5,000/mo lifestyle. Green = current selection.</div>
+      <table id="matrix"></table>
+    </div>
+  </div>
+
+  <div class="note" id="assump"></div>
+</div>
+
+<script>
+const CFG={ startYear:2027, infl:0.025, capTax:0.26375, rentDrag:0.15 };
+function MT(){ return Math.round((S.death - S.age)*12); }   // months from start to plan-end age
+
+const fmt=v=>'€'+Math.round(v).toLocaleString('en-US');
+const fmtK=v=>{const a=Math.abs(v);
+  if(a>=1e6) return '€'+(v/1e6).toFixed(2)+'m';
+  if(a>=1000) return '€'+(v/1000).toFixed(0)+'k';
+  return '€'+Math.round(v);};
+
+function wfMonth(){ return Math.max(0,Math.round((S.windfallYear-CFG.startYear)*12)); }
+function netRent(m){
+  let g=0;
+  for(const p of S.props){
+    const every=Math.max(1,p.rentEvery||1);
+    g += (p.rent||0)*Math.pow(1+(p.rentG||0)/100, Math.floor(m/(every*12)));  // +rentG% every N yrs
+  }
+  return (1-CFG.rentDrag)*g;
+}
+function spend(m,base){ return base*Math.pow(1+CFG.infl,m/12); }
+function propVal(m){
+  let v=0;
+  for(const p of S.props){ v += (p.value||0)*Math.pow(1+(p.valG||0)/100, m/12); }  // +valG% / yr
+  return v;
+}
+
+// Simulate a full life given FIRE month T. Returns {ok, series[], peak}
+function sim(contrib,windfall,T,base,rA){
+  const rm=Math.pow(1+rA,1/12)-1;
+  const wm=wfMonth(), mt=MT();
+  let p=S.startPort,b=S.startPort,ok=true,peak=0;
+  const series=[];
+  for(let m=0;m<=mt;m++){
+    if(m===wm && windfall>0 && T>=wm){ p+=windfall; b+=windfall; }
+    if(m<T){ const inv=contrib+netRent(m); p+=inv; b+=inv; }
+    else{
+      const gap=spend(m,base)-netRent(m);
+      if(gap>0){
+        const gf=p>0?Math.max(0,(p-b)/p):0;
+        const W=gap/(1-CFG.capTax*gf);
+        p-=W; b-=W*(1-gf); if(b<0)b=0;
+        if(p<0){ok=false;}
+      } else { p+=-gap; b+=-gap; }
+    }
+    p*=(1+rm);
+    if(p<0)p=0;
+    const nw=p+propVal(m);
+    if(nw>peak)peak=nw;
+    if(m%6===0||m===mt) series.push({m,port:p,nw});
+  }
+  return {ok,series,peak,endPort:p};
+}
+function findFire(contrib,windfall,base,rA){
+  const lo=windfall>0?wfMonth():0, mt=MT();
+  for(let T=lo;T<=mt;T++){
+    if(sim(contrib,windfall,T,base,rA).ok){
+      return {T, age:S.age+T/12, year:CFG.startYear+T/12};
+    }
+  }
+  return null;
+}
+
+// ---- state ----
+const S={ life:5000, save:3000, vsop:400000, ret:7, startPort:200000, windfallYear:2031, age:37, death:80,
+  props:[
+    {name:'Property 1', value:200000, valG:2, rent:650, rentG:3, rentEvery:2},
+    {name:'Property 2', value:20000,  valG:2, rent:120, rentG:5, rentEvery:3},
+  ]};
+let chNW,chFire,chLife,chCosts;
+const AX={grid:{color:'#212b45'},ticks:{color:'#93a0bd',font:{size:11}}};
+const noGrid={grid:{display:false},ticks:{color:'#93a0bd',font:{size:11}}};
+
+function kpis(){
+  const rA=S.ret/100;
+  const f=findFire(S.save,S.vsop,S.life,rA);
+  if(!f){ document.getElementById('kAge').textContent='—'; return; }
+  const potAtFire=sim(S.save,S.vsop,f.T,S.life,rA).series.find(x=>x.m>=f.T);
+  // portfolio value right at FIRE:
+  let pAtFire=0; { const r=sim(S.save,S.vsop,f.T,S.life,rA); const near=r.series.reduce((a,x)=>Math.abs(x.m-f.T)<Math.abs(a.m-f.T)?x:a); pAtFire=near.port; }
+  const simr=sim(S.save,S.vsop,f.T,S.life,rA);
+  document.getElementById('kAge').textContent=f.age.toFixed(1);
+  document.getElementById('kYear').textContent='in '+Math.floor(f.year);
+  document.getElementById('kPot').textContent=fmtK(pAtFire);
+  document.getElementById('kPotNote').textContent='S&P500 pot at retirement';
+  document.getElementById('kPeak').textContent=fmtK(simr.peak);
+  document.getElementById('kPeakNote').textContent='incl. property';
+  document.getElementById('kRetYears').textContent=(S.death-f.age).toFixed(0);
+  return {f,simr};
+}
+
+function drawNW(){
+  const rA=S.ret/100;
+  const f=findFire(S.save,S.vsop,S.life,rA)||{T:MT()};
+  const r=sim(S.save,S.vsop,f.T,S.life,rA);
+  const labels=r.series.map(x=>Math.floor(CFG.startYear+x.m/12));
+  const port=r.series.map(x=>Math.round(x.port));
+  const nw=r.series.map(x=>Math.round(x.nw));
+  const fireYear=f.T!==undefined?CFG.startYear+f.T/12:null;
+  const ds=[
+    {label:'Net worth (portfolio + property)',data:nw,borderColor:'#22c9a3',backgroundColor:'rgba(34,201,163,.12)',fill:true,tension:.25,pointRadius:0,borderWidth:2},
+    {label:'S&P500 portfolio',data:port,borderColor:'#5f7cff',backgroundColor:'rgba(95,124,255,.08)',fill:true,tension:.25,pointRadius:0,borderWidth:2},
+  ];
+  if(chNW)chNW.destroy();
+  chNW=new Chart(document.getElementById('chNW'),{type:'line',data:{labels,datasets:ds},
+    options:{responsive:true,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{color:'#e8edf7',font:{size:12}}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}},
+        annotation:{}},
+      scales:{x:{...noGrid},y:{...AX,ticks:{...AX.ticks,callback:v=>fmtK(v)}}}}});
+}
+
+function drawFireBar(){
+  const rA=S.ret/100;
+  const saves=[1000,2000,3000,4000,5000];
+  const vs=[{v:0,c:'#93a0bd',n:'No windfall'}];
+  if(S.vsop>0) vs.push({v:S.vsop,c:'#22c9a3',n:'+'+fmtK(S.vsop)});
+  const ds=vs.map(o=>({label:o.n,backgroundColor:o.c,borderRadius:5,
+    data:saves.map(s=>{const f=findFire(s,o.v,S.life,rA);return f?+f.age.toFixed(1):null;})}));
+  if(chFire)chFire.destroy();
+  chFire=new Chart(document.getElementById('chFire'),{type:'bar',
+    data:{labels:saves.map(s=>'€'+(s/1000)+'k'),datasets:ds},
+    options:{responsive:true,plugins:{legend:{labels:{color:'#e8edf7',font:{size:11}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': age '+c.raw}}},
+      scales:{x:{...noGrid,title:{display:true,text:'monthly savings',color:'#93a0bd',font:{size:11}}},
+        y:{...AX,title:{display:true,text:'FIRE age',color:'#93a0bd',font:{size:11}},suggestedMin:40}}}});
+  document.getElementById('fireSub').textContent='At €'+S.life.toLocaleString()+'/mo lifestyle — lower is better.';
+}
+
+function drawLife(){
+  const rA=S.ret/100;
+  const lifes=[5000,6000];
+  const f5=findFire(S.save,S.vsop,5000,rA), f6=findFire(S.save,S.vsop,6000,rA);
+  const ds=[{label:'FIRE age',backgroundColor:['#22c9a3','#f5a524'],borderRadius:6,
+    data:[f5?+f5.age.toFixed(1):null,f6?+f6.age.toFixed(1):null]}];
+  if(chLife)chLife.destroy();
+  chLife=new Chart(document.getElementById('chLife'),{type:'bar',
+    data:{labels:['€5,000/mo','€6,000/mo'],datasets:ds},
+    options:{responsive:true,plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>'age '+c.raw}}},
+      scales:{x:{...noGrid},y:{...AX,suggestedMin:40,title:{display:true,text:'FIRE age',color:'#93a0bd',font:{size:11}}}}}});
+}
+
+function drawCosts(){
+  const labels=[],sp5=[],sp6=[],rent=[];
+  for(let y=0;y<=S.death-S.age;y+=2){
+    const m=Math.round(y*12);
+    labels.push(Math.floor(CFG.startYear+y));
+    sp5.push(Math.round(spend(m,5000)*12));
+    sp6.push(Math.round(spend(m,6000)*12));
+    rent.push(Math.round(netRent(m)*12));
+  }
+  const ds=[
+    {label:'Spend €6k/mo (yearly)',data:sp6,borderColor:'#f5a524',backgroundColor:'rgba(245,165,36,.10)',fill:false,tension:.2,pointRadius:0,borderWidth:2},
+    {label:'Spend €5k/mo (yearly)',data:sp5,borderColor:'#5f7cff',backgroundColor:'rgba(95,124,255,.10)',fill:false,tension:.2,pointRadius:0,borderWidth:2},
+    {label:'Net rental income',data:rent,borderColor:'#22c9a3',backgroundColor:'rgba(34,201,163,.18)',fill:true,tension:.2,pointRadius:0,borderWidth:2},
+  ];
+  if(chCosts)chCosts.destroy();
+  chCosts=new Chart(document.getElementById('chCosts'),{type:'line',data:{labels,datasets:ds},
+    options:{responsive:true,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{color:'#e8edf7',font:{size:12}}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
+      scales:{x:{...noGrid},y:{...AX,ticks:{...AX.ticks,callback:v=>fmtK(v)}}}}});
+}
+
+function drawMatrix(){
+  const rA=S.ret/100;
+  const saves=[1000,2000,3000,4000,5000];
+  let vs=[0,500000,1000000,1500000,2000000];
+  if(!vs.includes(S.vsop)){ vs.push(S.vsop); vs.sort((a,b)=>a-b); }
+  let h='<thead><tr><th>Monthly savings</th>'+vs.map(v=>'<th>'+(v===0?'No windfall':'+'+fmtK(v))+'</th>').join('')+'</tr></thead><tbody>';
+  saves.forEach(s=>{
+    h+='<tr><td>€'+s.toLocaleString()+'</td>';
+    vs.forEach(v=>{
+      const f=findFire(s,v,S.life,rA);
+      const cur=(s===S.save&&v===S.vsop);
+      h+='<td class="'+(cur?'hi':'')+'">'+(f?f.age.toFixed(1)+' <span style="color:#6b7796">('+Math.floor(f.year)+')</span>':'—')+'</td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody>';
+  document.getElementById('matrix').innerHTML=h;
+  document.getElementById('matSub').innerHTML='At €'+S.life.toLocaleString()+'/mo lifestyle. Green = current selection. Age you can stop needing to work (portfolio lasts to 80).';
+}
+
+function assumptions(){
+  const n=S.props.length;
+  document.getElementById('assump').innerHTML=
+   '<b>Assumptions:</b> Start portfolio '+fmtK(S.startPort)+' (start year '+CFG.startYear+'), age '+S.age+' now, plan runs to age '+S.death+'. '+
+   'Stock portfolio '+S.ret.toFixed(1)+'% nominal; spending inflates 2.5%/yr. Portfolio withdrawals taxed 26.375% on the gains portion; '+
+   'rent taxed with a 15% net drag. '+n+' propert'+(n===1?'y':'ies')+' provide rent (reinvested while working, offsetting spend in '+
+   'retirement); property value is never consumed — it stays as an estate/cushion on top. Windfall of '+fmtK(S.vsop)+
+   ' is invested into the portfolio in '+S.windfallYear+'. Portfolio is drawn to ~€0 at your plan-end age: if you live longer or hit a crash at '+
+   'retirement (sequence risk), add a 2–3 year buffer. Not financial advice.';
+}
+
+function field(i,f,label,cls,val){
+  const type=(cls==='name')?'text':'number';
+  return '<div class="f"><label>'+label+'</label><input class="'+cls+'" type="'+type+'" data-i="'+i+'" data-f="'+f+'" value="'+val+'"></div>';
+}
+function buildPropsUI(){
+  const list=document.getElementById('propList');
+  list.innerHTML='';
+  S.props.forEach((p,i)=>{
+    const row=document.createElement('div'); row.className='prow';
+    row.innerHTML=
+      field(i,'name','Name','name',p.name)+
+      field(i,'value','Value €','num',p.value)+
+      field(i,'valG','Value +%/yr','num',p.valG)+
+      field(i,'rent','Rent €/mo','num',p.rent)+
+      field(i,'rentG','Rent +%','num',p.rentG)+
+      field(i,'rentEvery','every N yrs','num',p.rentEvery)+
+      '<button class="delbtn" data-del="'+i+'" title="Remove property">×</button>';
+    list.appendChild(row);
+  });
+  list.querySelectorAll('input[data-i]').forEach(inp=>{
+    inp.addEventListener('input',e=>{
+      const i=+e.target.dataset.i, f=e.target.dataset.f;
+      S.props[i][f]=(f==='name')?e.target.value:(+e.target.value||0);
+      render();
+    });
+  });
+  list.querySelectorAll('[data-del]').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      S.props.splice(+e.currentTarget.dataset.del,1); buildPropsUI(); render();
+    });
+  });
+}
+
+function render(){ const k=kpis(); drawNW(); drawFireBar(); drawLife(); drawCosts(); drawMatrix(); assumptions(); }
+
+// ---- wiring ----
+document.getElementById('segLife').addEventListener('click',e=>{
+  if(e.target.dataset.v){[...e.currentTarget.children].forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on');S.life=+e.target.dataset.v;render();}});
+// build windfall dropdown: €0 to €2M in €100k steps
+const selVsop=document.getElementById('selVsop');
+for(let v=0;v<=2000000;v+=100000){
+  const o=document.createElement('option');
+  o.value=v; o.textContent=(v===0)?'€0 (none)':fmtK(v);
+  if(v===S.vsop)o.selected=true;
+  selVsop.appendChild(o);
+}
+selVsop.addEventListener('change',e=>{S.vsop=+e.target.value;render();});
+document.getElementById('inWfYear').addEventListener('input',e=>{S.windfallYear=Math.min(2060,Math.max(2027,+e.target.value||2031));render();});
+document.getElementById('selSave').addEventListener('change',e=>{S.save=+e.target.value;render();});
+document.getElementById('inPort').addEventListener('input',e=>{S.startPort=Math.max(0,+e.target.value||0);render();});
+document.getElementById('inAge').addEventListener('input',e=>{S.age=Math.max(18,Math.min(70,+e.target.value||37));render();});
+document.getElementById('inDeath').addEventListener('input',e=>{S.death=Math.max(S.age+1,+e.target.value||80);render();});
+document.getElementById('rRet').addEventListener('input',e=>{S.ret=+e.target.value;
+  document.getElementById('rLbl').textContent=S.ret.toFixed(1)+'%';render();});
+document.getElementById('addProp').addEventListener('click',()=>{
+  S.props.push({name:'Property '+(S.props.length+1),value:100000,valG:2,rent:500,rentG:2,rentEvery:1});
+  buildPropsUI(); render();
+});
+
+buildPropsUI();
+render();
+</script>
+</body>
+</html>
